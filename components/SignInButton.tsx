@@ -2,7 +2,7 @@
 
 import { useAccount, useSignMessage, useChainId } from 'wagmi';
 import { SiweMessage } from 'siwe';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
@@ -19,6 +19,16 @@ export default function SignInButton() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
+
+  // Load token from localStorage only on client side
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedToken = localStorage.getItem('wallet2fa_token');
+      if (savedToken) {
+        setAuthToken(savedToken);
+      }
+    }
+  }, []);
 
   const handleSignIn = async () => {
     if (!address || !isConnected) {
@@ -65,8 +75,8 @@ export default function SignInButton() {
       // Step 3: Sign message with wallet
       console.log('✍️ Step 3: Signing message...');
       const signature = await signMessageAsync({ 
-      message: messageString,
-      account: address as `0x${string}`
+        message: messageString,
+        account: address as `0x${string}`
       });
       console.log('✅ Signature obtained');
 
@@ -90,10 +100,12 @@ export default function SignInButton() {
       const verifyData = await verifyResponse.json();
       console.log('✅ Verification successful:', verifyData);
 
-      // Store JWT token
+      // Store JWT token (only on client side)
       setAuthToken(verifyData.token);
       setZkProof(verifyData.zkProofHash);
-      localStorage.setItem('wallet2fa_token', verifyData.token);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('wallet2fa_token', verifyData.token);
+      }
 
       // Step 5: Log to smart contract (simulated for now)
       console.log('⛓️ Step 5: Logging to smart contract...');
@@ -119,6 +131,11 @@ export default function SignInButton() {
     if (CONTRACT_ADDRESS === '0x0000000000000000000000000000000000000000') {
       console.log('📝 Mock contract interaction - sessionHash:', sessionHash);
       return;
+    }
+
+    // Check if window.ethereum exists (client-side only)
+    if (typeof window === 'undefined' || !(window as any).ethereum) {
+      throw new Error('Ethereum provider not found');
     }
 
     // Real contract interaction code (will be used after deployment)
