@@ -1,0 +1,2 @@
+.exit
+npx hardhat console --network sepolia
