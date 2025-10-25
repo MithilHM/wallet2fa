@@ -1,8 +1,8 @@
 # 🔐 Wallet2FA - Decentralized Two-Factor Authentication
 
 > **Hackathon Submission**  
-> URL: 
-> Demo:   
+> URL: https://wallet2fa.vercel.app
+> Demo: https://www.youtube.com/watch?v=Ctlg-MLn1ZE
 > Smart Contract: [`0xbd1A9b9E574D57162Ecc499e3BeA28144273d4F9`](https://sepolia.etherscan.io/address/0xbd1A9b9E574D57162Ecc499e3BeA28144273d4F9)
 
 ---
