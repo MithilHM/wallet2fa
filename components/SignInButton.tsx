@@ -64,7 +64,10 @@ export default function SignInButton() {
 
       // Step 3: Sign message with wallet
       console.log('✍️ Step 3: Signing message...');
-      const signature = await signMessageAsync({ message: messageString });
+      const signature = await signMessageAsync({ 
+      message: messageString,
+      account: address as `0x${string}`
+      });
       console.log('✅ Signature obtained');
 
       // Step 4: Verify signature and get JWT
