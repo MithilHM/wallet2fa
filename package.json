@@ -72,6 +72,7 @@
         "zod": "^3.25.67"
     },
     "devDependencies": {
+        "@nomicfoundation/hardhat-verify": "^3.0.4",
         "@types/react": "19.2.2",
         "autoprefixer": "^10.4.19",
         "globals": "^16.2.0",

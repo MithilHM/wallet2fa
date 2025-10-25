@@ -1,8 +1,9 @@
-import '@nomicfoundation/hardhat-ethers';
+﻿import '@nomicfoundation/hardhat-ethers';
+import '@nomicfoundation/hardhat-verify';
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
-export default {
+const config = {
   solidity: {
     version: '0.8.20',
     settings: {
@@ -14,8 +15,7 @@ export default {
   },
   networks: {
     sepolia: {
-      type: 'http',
-      url: process.env.RPC_URL || 'https://eth-sepolia.g.alchemy.com/v2/YOUR_KEY',
+      url: process.env.RPC_URL || '',
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       chainId: 11155111,
     },
@@ -23,4 +23,9 @@ export default {
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY || '',
   },
+  sourcify: {
+    enabled: false,
+  },
 };
+
+export default config;
